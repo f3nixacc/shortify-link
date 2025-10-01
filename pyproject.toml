@@ -1,0 +1,64 @@
+[project]
+name = "shortify-link"
+version = "0.1.0"
+description = "MVP URL shortening service with click tracking"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "django>=5.0,<5.2",
+    "psycopg2-binary>=2.9.9",
+    "django-unfold>=0.19.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-django>=4.7.0",
+    "pytest-cov>=4.1.0",
+    "black>=24.0.0",
+    "flake8>=7.0.0",
+    "mypy>=1.8.0",
+    "django-stubs>=4.2.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["links", "core", "config"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["test_*.py"]
+testpaths = ["tests"]
+addopts = "--cov=links --cov=core --cov-report=html --cov-report=term"
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | migrations
+)/
+'''
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+plugins = ["mypy_django_plugin.main"]
+
+[tool.django-stubs]
+django_settings_module = "config.settings"
