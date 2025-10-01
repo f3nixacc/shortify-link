@@ -1,0 +1,8 @@
+{
+  "name": "django-app",
+  "source": {
+    "type": "github",
+    "repo": "f3nixacc/shortify-link",
+    "branch": "master"
+  }
+}
